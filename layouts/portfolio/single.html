@@ -1,16 +1,35 @@
 {{ define "main" }}
   <h1 class="page-title">{{ .Title }}</h1>
-  <div class="lightbox-grid">
-    {{ range .Resources.ByType "image" }}
-      {{ $full := .Resize "1800x q80" }}
-      {{ $thumb := .Resize "700x q75" }}
-      <a class="lightbox-item glightbox" href="{{ $full.RelPermalink }}" data-gallery="gallery-{{ $.File.ContentBaseName }}">
-        <img src="{{ $thumb.RelPermalink }}" alt="{{ $.Title }}" loading="lazy" width="{{ $thumb.Width }}" height="{{ $thumb.Height }}">
-      </a>
-    {{ end }}
-  </div>
+  
+<div class="justified-gallery">
 
-  {{ $siblings := .CurrentSection.RegularPages.ByParam "weight" }}
+  {{ range .Resources.ByType "image" }}
+
+    {{ $full := .Resize "1800x q80" }}
+    {{ $thumb := .Resize "900x q80" }}
+
+    <a
+      class="justified-item glightbox"
+      href="{{ $full.RelPermalink }}"
+      data-gallery="gallery-{{ $.File.ContentBaseName }}"
+      data-width="{{ .Width }}"
+      data-height="{{ .Height }}"
+    >
+      <img
+        src="{{ $thumb.RelPermalink }}"
+        alt="{{ $.Title }}"
+        loading="lazy"
+        width="{{ $thumb.Width }}"
+        height="{{ $thumb.Height }}"
+      >
+    </a>
+
+  {{ end }}
+
+</div>
+
+
+  {{ $siblings := .CurrentSection.RegularPages.ByTitle }}
   {{ $curIndex := -1 }}
   {{ range $i, $p := $siblings }}
     {{ if eq $p.RelPermalink $.RelPermalink }}{{ $curIndex = $i }}{{ end }}

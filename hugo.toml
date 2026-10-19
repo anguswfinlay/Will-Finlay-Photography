@@ -8,9 +8,10 @@ paginate = 40
 [params]
   author = "Will Finlay"
 
+
 [[menu.main]]
   name = "Portfolio"
-  url = "/"
+  url = "/portfolio/"
   weight = 1
   identifier = "portfolio"
 
@@ -22,11 +23,11 @@ paginate = 40
   identifier = "travel"
 
 [[menu.main]]
-  name = "Events"
-  url = "/portfolio/events/"
+  name = "Live Music"
+  url = "/portfolio/live-music/"
   weight = 2
   parent = "portfolio"
-  identifier = "events"
+  identifier = "live-music"
 
 [[menu.main]]
   name = "About"

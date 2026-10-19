@@ -1,10 +1,21 @@
+
 {{ define "main" }}
+
   <h1 class="page-title">{{ .Title }}</h1>
-  {{ if .RegularPages }}
-    {{/* A category page (Travel or Events): show its own galleries directly */}}
-    {{ partial "gallery-grid.html" (.RegularPages.ByParam "weight") }}
-  {{ else }}
-    {{/* The top-level Portfolio page: show every gallery across all categories */}}
-    {{ partial "gallery-grid.html" (.RegularPagesRecursive.ByParam "weight") }}
+
+  {{ if eq .Section "portfolio" }}
+
+    {{ if .RegularPages }}
+      {{/* Travel or Live Music */}}
+      {{ partial "gallery-grid.html" .RegularPages.ByTitle }}
+
+    {{ else }}
+      {{/* Portfolio: all galleries */}}
+      {{ partial "gallery-grid.html" .RegularPagesRecursive.ByTitle }}
+
+    {{ end }}
+
   {{ end }}
+
 {{ end }}
+

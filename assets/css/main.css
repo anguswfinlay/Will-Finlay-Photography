@@ -384,3 +384,236 @@ main {
   }
 }
 
+
+/* =====================================
+   HOMEPAGE FEATURED GALLERY GRID
+   ===================================== */
+
+.homepage-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+/* All homepage gallery thumbnails */
+.homepage-grid-item {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 0;
+  aspect-ratio: 1 / 1;
+}
+
+/* First gallery is double-width */
+.homepage-grid-item:first-child {
+  grid-column: span 2;
+  aspect-ratio: 2 / 1;
+}
+
+/* Images fill their containers */
+.homepage-grid-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  transition: transform 0.5s ease;
+}
+
+/* Existing hover zoom */
+.homepage-grid-item:hover img {
+  transform: scale(1.05);
+}
+
+/* Existing title overlay */
+.homepage-grid-item:hover .overlay {
+  background: var(--overlay-bg);
+}
+
+.homepage-grid-item:hover .overlay-title {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =====================================
+   MEDIUM SCREENS
+   ===================================== */
+
+@media (max-width: 1000px) {
+
+  .homepage-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .homepage-grid-item:first-child {
+    grid-column: span 2;
+    aspect-ratio: 2 / 1;
+  }
+
+}
+
+/* =====================================
+   MOBILE
+   ===================================== */
+
+@media (max-width: 600px) {
+
+  .homepage-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .homepage-grid-item {
+    aspect-ratio: 3 / 2;
+  }
+
+  .homepage-grid-item:first-child {
+    grid-column: span 1;
+    aspect-ratio: 3 / 2;
+  }
+
+}
+
+
+/* =====================================
+   JUSTIFIED PHOTO GALLERY
+   ===================================== */
+
+.justified-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+/* Each horizontal row */
+.justified-row {
+  display: flex;
+  gap: 4px;
+  width: 100%;
+}
+
+/* Individual photographs */
+.justified-item {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  cursor: zoom-in;
+}
+
+/* Preserve original aspect ratios */
+.justified-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Subtle hover effect */
+.justified-item:hover img {
+  opacity: 0.9;
+}
+
+/* Avoid horizontal overflow */
+.justified-gallery,
+.justified-row {
+  max-width: 100%;
+}
+
+/* Mobile spacing */
+@media (max-width: 640px) {
+  .justified-gallery,
+  .justified-row {
+    gap: 4px;
+  }
+}
+
+/* Ensure full photographs display inside GLightbox */
+
+.glightbox-container .gslide-image img {
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100vh !important;
+  object-fit: contain !important;
+}
+
+
+/* Gallery overview covers: Portfolio, Travel, Live Music */
+
+.justified-item.gallery-cover {
+  position: relative;
+  overflow: hidden;
+}
+
+.justified-item.gallery-cover .overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  transition: background 0.3s ease;
+}
+
+.justified-item.gallery-cover .overlay-title {
+  color: #fff;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  /* Keep multi-line titles centered */
+  text-align: center;
+  max-width: 90%;
+  overflow-wrap: break-word;
+}
+
+.justified-item.gallery-cover:hover .overlay {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.justified-item.gallery-cover:hover .overlay-title {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Separate Portfolio link and submenu toggle */
+
+.submenu-toggle {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .nav-item.has-children {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .submenu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    padding: 8px 12px;
+    font: inherit;
+  }
+
+  .submenu-toggle span {
+    display: inline-block;
+    transition: transform 0.2s ease;
+  }
+
+  .nav-item.has-children.open .submenu-toggle span {
+    transform: rotate(180deg);
+  }
+
+  .nav-item.has-children .submenu {
+    flex-basis: 100%;
+  }
+}

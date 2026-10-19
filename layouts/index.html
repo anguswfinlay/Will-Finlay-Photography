@@ -1,5 +1,67 @@
+
 {{ define "main" }}
+
   {{ $portfolio := site.GetPage "/portfolio" }}
-  {{ $galleries := $portfolio.RegularPagesRecursive.ByParam "weight" }}
-  {{ partial "gallery-grid.html" $galleries }}
+  {{ $galleries := $portfolio.RegularPagesRecursive }}
+  {{ $featured := where $galleries "Params.featured" true }}
+
+  {{ $manual := slice }}
+  {{ $automatic := slice }}
+
+  {{ range $featured }}
+    {{ if .Params.featured_order }}
+      {{ $manual = $manual | append . }}
+    {{ else }}
+      {{ $automatic = $automatic | append . }}
+    {{ end }}
+  {{ end }}
+
+  {{ $manual = sort $manual "Params.featured_order" "asc" }}
+  {{ $automatic = sort $automatic "Date" "desc" }}
+  {{ $ordered := $manual | append $automatic }}
+
+  <div class="homepage-grid">
+
+    {{ range first 5 $ordered }}
+
+      {{ $gallery := . }}
+      {{ $cover := "" }}
+
+      {{ with .Params.cover }}
+        {{ $cover = $gallery.Resources.GetMatch . }}
+      {{ end }}
+
+      {{ $images := $gallery.Resources.ByType "image" }}
+
+      {{ if and (not $cover) (gt (len $images) 0) }}
+        {{ $cover = index $images 0 }}
+      {{ end }}
+
+      {{ with $cover }}
+        {{ $img := .Resize "1200x q85" }}
+
+        <a class="homepage-grid-item"
+           href="{{ $gallery.RelPermalink }}">
+
+          <img
+            src="{{ $img.RelPermalink }}"
+            alt="{{ $gallery.Title }}"
+            loading="lazy"
+            width="{{ $img.Width }}"
+            height="{{ $img.Height }}"
+          >
+
+          <span class="overlay">
+            <span class="overlay-title">
+              {{ $gallery.Title }}
+            </span>
+          </span>
+
+        </a>
+      {{ end }}
+
+    {{ end }}
+
+  </div>
+
 {{ end }}
